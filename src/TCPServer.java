@@ -49,43 +49,45 @@ public class TCPServer {
 
         /* TESTING LATENCY AND THROUGHPUT */
 
+        ServerSocket serverSocket = new ServerSocket(port);
+        Socket clientSocket = serverSocket.accept();
+
         for(int i = 0; i < TRIALS; i++) {
 
             //ack
-            receiveAndSend(1, port);
+            receiveAndSend(serverSocket, clientSocket, 1, port);
 
-            receiveAndSend(1, port);
-            receiveAndSend(64, port);
-            receiveAndSend(1024, port);
-            receiveAndSend(1024 << 4, port);
-            receiveAndSend(1024 << 6, port);
-            receiveAndSend(1024 << 8, port);
-            receiveAndSend(1024 << 10, port);
+            receiveAndSend(serverSocket,clientSocket,1, port);
+            receiveAndSend(serverSocket,clientSocket,64, port);
+            receiveAndSend(serverSocket,clientSocket,1024, port);
+            receiveAndSend(serverSocket,clientSocket,1024 << 4, port);
+            receiveAndSend(serverSocket,clientSocket,1024 << 6, port);
+            receiveAndSend(serverSocket,clientSocket,1024 << 8, port);
+            receiveAndSend(serverSocket,clientSocket,1024 << 10, port);
         }
 
         /* TESTING TIME TO SEND VARIOUS MESSAGE SIZES TOTALLING 1MB */
         for(int i = 0; i < 1024; i ++){
-            receiveAndSend(1, port);
-            receiveAndSend(1024, port);
+            receiveAndSend(serverSocket,clientSocket,1, port);
+            receiveAndSend(serverSocket,clientSocket,1024, port);
         }
         for(int i = 0; i < 2048; i ++){
-            receiveAndSend(1, port);
-            receiveAndSend(512, port);
+            receiveAndSend(serverSocket,clientSocket,1, port);
+            receiveAndSend(serverSocket,clientSocket,512, port);
         }
         for(int i = 0; i < 4096; i ++){
-            receiveAndSend(1, port);
-            receiveAndSend(256, port);
+            receiveAndSend(serverSocket,clientSocket,1, port);
+            receiveAndSend(serverSocket,clientSocket,256, port);
         }
 
     }
 
-    static void receiveAndSend(int size, int port) throws IOException {
+    static void receiveAndSend(ServerSocket serverSocket, Socket clientSocket, int size, int port) throws IOException {
 
         try {
-            ServerSocket serverSocket = new ServerSocket(port);
+            //ServerSocket serverSocket = new ServerSocket(port);
             System.out.println("Socket created");
             //serverSocket.setSoTimeout(0);
-            Socket clientSocket = serverSocket.accept();
 
             DataInputStream din = new DataInputStream(clientSocket.getInputStream());
 
@@ -97,10 +99,8 @@ public class TCPServer {
 
             System.out.println("Echoed " + msg.length + " bytes");
 
-            serverSocket.close();
-            clientSocket.close();
-            din.close();
-            dout.close();
+            //serverSocket.close();
+            //clientSocket.close();
 
 
         } catch (IOException e) {

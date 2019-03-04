@@ -76,33 +76,37 @@ public class TCPClient {
 
         /* TESTING LATENCY AND THROUGPUT */
 
+        Socket socket = new Socket(host, port);
+        DataInputStream din = new DataInputStream(socket.getInputStream());
+        DataOutputStream dout = new DataOutputStream(socket.getOutputStream());
+
         for(int i = 0; i < TRIALS; i++) {
 
 
             //ack
-            if(sendAndReceiveTimed(msg_1B, host, port, false) > 0) System.out.println("Ack successful");
+            if(sendAndReceiveTimed(din, dout, msg_1B, socket, false) > 0) System.out.println("Ack successful");
 
             System.out.println("Sending and receiving 1 byte");
-            byte_1_times.add(sendAndReceiveTimed(msg_1B, host, port, false));
-            TimeUnit.SECONDS.sleep(1);
+            byte_1_times.add(sendAndReceiveTimed(din, dout, msg_1B, socket, false));
+            //TimeUnit.SECONDS.sleep(1);
             System.out.println("Sending and receiving 64 bytes");
-            byte_64_times.add(sendAndReceiveTimed(msg_64B, host, port, false));
-            TimeUnit.SECONDS.sleep(1);
+            byte_64_times.add(sendAndReceiveTimed(din, dout, msg_64B, socket, false));
+            //TimeUnit.SECONDS.sleep(1);
             System.out.println("Sending and receiving 1 kilobyte");
-            kilobyte_1_times.add(sendAndReceiveTimed(msg_1KB, host, port, false));
-            TimeUnit.SECONDS.sleep(1);
+            kilobyte_1_times.add(sendAndReceiveTimed(din, dout, msg_1KB, socket, false));
+            //TimeUnit.SECONDS.sleep(1);
             System.out.println("Sending and receiving 16 kilobytes");
-            kilobyte_16_times.add(sendAndReceiveTimed(msg_16KB, host, port, false));
-            TimeUnit.SECONDS.sleep(1);
+            kilobyte_16_times.add(sendAndReceiveTimed(din, dout, msg_16KB, socket, false));
+            //TimeUnit.SECONDS.sleep(1);
             System.out.println("Sending and receiving 64 kilobytes");
-            kilobyte_64_times.add(sendAndReceiveTimed(msg_64KB, host, port, false));
-            TimeUnit.SECONDS.sleep(1);
+            kilobyte_64_times.add(sendAndReceiveTimed(din, dout, msg_64KB, socket, false));
+            //TimeUnit.SECONDS.sleep(1);
             System.out.println("Sending and receiving 256 kilobytes");
-            kilobyte_256_times.add(sendAndReceiveTimed(msg_256KB, host, port, false));
-            TimeUnit.SECONDS.sleep(1);
+            kilobyte_256_times.add(sendAndReceiveTimed(din, dout, msg_256KB, socket, false));
+            //TimeUnit.SECONDS.sleep(1);
             System.out.println("Sending and receiving 1 megabyte");
-            megabyte_1_times.add(sendAndReceiveTimed(msg_1MB, host, port, false));
-            TimeUnit.SECONDS.sleep(1);
+            megabyte_1_times.add(sendAndReceiveTimed(din, dout, msg_1MB, socket, false));
+            //TimeUnit.SECONDS.sleep(1);
         }
 
         times.add(byte_1_times);
@@ -168,70 +172,62 @@ public class TCPClient {
         *
         * */
 
-        TimeUnit.SECONDS.sleep(9);
-
         System.out.println("TESTING TIME TO SEND VARIOUS MESSAGE SIZES TOTALLING 1MB");
+
 
         double total_1024_1024 = 0;
 
+        System.out.println("Sending 1024 1KB messages");
         for(int i = 0; i < 1024; i++) {
-            sendAndReceiveTimed(msg_1B, host, port, true);
-            total_1024_1024 += sendAndReceiveTimed(msg_1B, host, port, true);
+            sendAndReceiveTimed(din, dout, msg_1B, socket, false);
+            total_1024_1024 += sendAndReceiveTimed(din, dout, msg_1KB, socket, false);
+            //TimeUnit.MILLISECONDS.sleep(300);
         }
 
         double total_2048_512 = 0;
 
+        System.out.println("Sending 2048 512B messages");
         for(int i = 0; i < 2048; i++){
-            total_2048_512 += sendAndReceiveTimed(msg_512B, host, port, true);
+            sendAndReceiveTimed(din, dout, msg_1B, socket, false);
+            total_2048_512 += sendAndReceiveTimed(din, dout, msg_512B, socket, false);
+            //TimeUnit.MILLISECONDS.sleep(300);
         }
 
         double total_4096_256 = 0;
-
+        System.out.println("Sending 4096 256B messages");
         for(int i = 0; i < 4096; i ++){
-            total_4096_256 += sendAndReceiveTimed(msg_256B, host, port, true);
+            sendAndReceiveTimed(din, dout, msg_1B, socket, false);
+            total_4096_256 += sendAndReceiveTimed(din, dout, msg_256B, socket, false);
+            //TimeUnit.MILLISECONDS.sleep(300);
         }
 
         System.out.println("\n-----RESULTS------\n");
-        System.out.println("1024 1024B messages: " + total_1024_1024 * 1000000000 + " seconds");
-        System.out.println("2048 512B messages: " + total_2048_512 * 1000000000 + " seconds");
-        System.out.println("4096 256B messages: " + total_4096_256 * 1000000000 + " seconds");
+        System.out.println("1024 1024B messages: " + total_1024_1024 / 1000000000 + " seconds");
+        System.out.println("2048 512B messages: " + total_2048_512 / 1000000000 + " seconds");
+        System.out.println("4096 256B messages: " + total_4096_256 / 1000000000 + " seconds");
 
+        socket.close();
+        din.close();
+        dout.close();
 
     }
 
-    static void sendAndReceive(byte[] msg, Socket socket) throws IOException {
+    static void sendAndReceive(DataInputStream din, DataOutputStream dout, byte[] msg, Socket socket) throws IOException {
 
         byte[] rcv = new byte[msg.length];
-
-        //write
         long now = System.nanoTime();
-        DataOutputStream dout = new DataOutputStream(socket.getOutputStream());
-
-        //System.out.println("Sending " + msg.length);
         dout.write(msg, 0, msg.length);
-
-        //read
-        DataInputStream in = new DataInputStream(socket.getInputStream());
-        in.readFully(rcv);
-
-        dout.close();
-        in.close();
+        din.readFully(rcv);
     }
 
-    static double sendAndReceiveTimed(byte[] msg, String host, int port, boolean display) throws IOException {
+    static double sendAndReceiveTimed(DataInputStream din, DataOutputStream dout, byte[] msg, Socket socket, boolean display) throws IOException {
 
         long now;
         double duration;
 
-        Socket socket = new Socket(host, port);
-        socket.setSoTimeout(10000);
-        //System.out.println("Successfully connected to server");
-
         now = System.nanoTime();
-        sendAndReceive(msg, socket);
+        sendAndReceive(din, dout, msg, socket);
         duration = System.nanoTime() - now;
-
-        socket.close();
 
         if (display) {
             System.out.println(duration / 1000000 + " ms");
