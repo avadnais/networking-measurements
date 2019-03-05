@@ -37,7 +37,7 @@ import java.util.concurrent.TimeUnit;
 
 public class TCPServer {
 
-    static int TRIALS = 1;
+    static int TRIALS = 5;
 
     public static void main(String args[]) throws IOException, InterruptedException {
 

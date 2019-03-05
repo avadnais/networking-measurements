@@ -34,11 +34,10 @@ import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.concurrent.TimeUnit;
 
 public class TCPClient {
 
-    static final int TRIALS = 1;
+    static final int TRIALS = 5;
 
     public static void main(String args[]) throws IOException, InterruptedException {
 
@@ -201,14 +200,26 @@ public class TCPClient {
             //TimeUnit.MILLISECONDS.sleep(300);
         }
 
+        socket.close();
+        din.close();
+        dout.close();
+
         System.out.println("\n-----RESULTS------\n");
         System.out.println("1024 1024B messages: " + total_1024_1024 / 1000000000 + " seconds");
         System.out.println("2048 512B messages: " + total_2048_512 / 1000000000 + " seconds");
         System.out.println("4096 256B messages: " + total_4096_256 / 1000000000 + " seconds");
 
-        socket.close();
-        din.close();
-        dout.close();
+        ArrayList<Double> times1MB = new ArrayList<>(3);
+        times1MB.add(total_1024_1024);
+        times1MB.add(total_2048_512);
+        times1MB.add(total_4096_256);
+
+        times.add(times1MB);
+
+
+        writeResults(times);
+
+
 
     }
 
@@ -240,5 +251,21 @@ public class TCPClient {
 
     static double throughputMbps(int size, double time) {
         return size * 8 / (time / 1000);
+    }
+
+    static void writeResults(ArrayList<ArrayList<Double>> times) throws IOException {
+
+        BufferedWriter fout = new BufferedWriter(new FileWriter("TCPResults.txt"));
+
+        for(ArrayList<Double> size : times) {
+            for (Double time : size) {
+                fout.write(time.toString());
+                fout.newLine();
+            }
+            fout.write("");
+            fout.newLine();
+        }
+        fout.close();
+
     }
 }

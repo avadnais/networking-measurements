@@ -17,6 +17,7 @@ public class UDPServerThread extends Thread {
         System.out.print("Enter port: ");
 
         socket = new DatagramSocket(Integer.parseInt(sc.next()));
+        System.out.println("Socket created");
 
     }
 
@@ -24,7 +25,13 @@ public class UDPServerThread extends Thread {
 
         Scanner sc = new Scanner(System.in);
 
+
+
         try {
+
+            /* THROUGHPUT AND LATENCY */
+
+
             //ack
             receiveAndSend(1, socket);
 
@@ -32,10 +39,25 @@ public class UDPServerThread extends Thread {
             receiveAndSend(64, socket);
             receiveAndSend(1024, socket);
 
+            /* MESSAGES OF VARIOUS SIZED TOTALING 1MB*/
+
+            for(int i = 0; i < 1024; i++){
+                receiveAndSend(1024, socket);
+            }
+
+            for(int i = 0; i < 2048; i++){
+                receiveAndSend(512, socket);
+            }
+
+            for(int i = 0; i < 4096; i++){
+                receiveAndSend(256, socket);
+            }
+
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+        socket.close();
     }
 
 
