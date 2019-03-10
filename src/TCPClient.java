@@ -217,7 +217,7 @@ public class TCPClient {
         times.add(times1MB);
 
 
-        writeResults(times);
+        writeResults(TRIALS, times);
 
 
 
@@ -253,19 +253,26 @@ public class TCPClient {
         return size * 8 / (time / 1000);
     }
 
-    static void writeResults(ArrayList<ArrayList<Double>> times) throws IOException {
+    static void writeResults(int trials, ArrayList<ArrayList<Double>> times) throws IOException {
 
         BufferedWriter fout = new BufferedWriter(new FileWriter("TCPResults.txt"));
 
+        fout.write(String.valueOf(trials));
+        fout.newLine();
+
         for(ArrayList<Double> size : times) {
-            for (Double time : size) {
-                fout.write(time.toString());
-                fout.newLine();
-            }
-            fout.write("");
+            fout.write(average(size).toString());
             fout.newLine();
         }
         fout.close();
 
+    }
+
+    static Double average(ArrayList<Double> times){
+        Double total = 0.0;
+        for(Double t : times){
+            total += t;
+        }
+        return total / times.size();
     }
 }

@@ -67,7 +67,6 @@ public class UDPClient {
         System.out.println("Sending 4096 256B messages");
 
         for (int i = 0; i < 4080; i++) {
-            System.out.println("256 iteration " + (i + 1));
             total_4080_256 += sendAndReceiveTimed(256, socket2, address, port, false);
         }
 
@@ -91,7 +90,7 @@ public class UDPClient {
 
         socket.close();
 
-        writeResults(times);
+        writeResults(TRIALS, times);
 
     }
 
@@ -112,28 +111,40 @@ public class UDPClient {
 
         now = System.nanoTime();
         sendAndReceive(size, socket, address, port);
-        duration = System.nanoTime() - now;
+        duration = (System.nanoTime() - now);
 
         if (display) System.out.println("RTT for " + size + " bytes: " + duration / (double) 1000000 + " ms");
 
         return duration;
     }
 
-    static void writeResults(ArrayList<ArrayList<Double>> times) throws IOException {
+    static void writeResults(int trials, ArrayList<ArrayList<Double>> times) throws IOException {
 
         BufferedWriter fout = new BufferedWriter(new FileWriter("UDPResults.txt"));
 
-        for (ArrayList<Double> size : times) {
-            for (Double time : size) {
-                fout.write(time.toString());
-                fout.newLine();
-            }
-            fout.write("");
+        fout.write(String.valueOf(trials));
+        fout.newLine();
+
+        //write the average of latencies
+        for (int i = 0; i < 3; i++) {
+            fout.write(average(times.get(i)).toString());
             fout.newLine();
         }
+        //write each throughput
+        fout.write(times.get(3).get(0).toString());
+        fout.newLine();
+        fout.write(times.get(3).get(1).toString());
+        fout.newLine();
+        fout.write(times.get(3).get(2).toString());
         fout.close();
-
 
     }
 
+    static Double average(ArrayList<Double> times) {
+        Double total = 0.0;
+        for (Double t : times) {
+            total += t;
+        }
+        return total / times.size();
+    }
 }
