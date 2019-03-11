@@ -403,11 +403,11 @@ public class Webpage {
         int i = results.size() - 1;
 
         sb.append("[");
-        sb.append(results.get(i).get(0) / 1000000);
+        sb.append(results.get(i).get(0) / 1000000000);
         sb.append(", ");
-        sb.append(results.get(i).get(1) / 1000000);
+        sb.append(results.get(i).get(1) / 1000000000);
         sb.append(", ");
-        sb.append(results.get(i).get(2) / 1000000);
+        sb.append(results.get(i).get(2) / 1000000000);
         sb.append("]");
 
         return sb.toString();
