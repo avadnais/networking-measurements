@@ -67,8 +67,7 @@ public class Webpage {
         return host;
     }
 
-    public static ArrayList<ArrayList<Double>> getResults(File file){
-
+    public static ArrayList<ArrayList<Double>> getUdpResults(File file){
         ArrayList<ArrayList<Double>> times = new ArrayList<>();
 
         ArrayList<Double> latency1b = new ArrayList<>();
@@ -106,12 +105,113 @@ public class Webpage {
         return times;
     }
 
+    public static ArrayList<ArrayList<Double>> getTcpResults(File file){
+
+        ArrayList<ArrayList<Double>> times = new ArrayList<>();
+
+        ArrayList<Double> latency1b = new ArrayList<>();
+        ArrayList<Double> latency64b = new ArrayList<>();
+        ArrayList<Double> latency1kb = new ArrayList<>();
+        ArrayList<Double> latency16kb = new ArrayList<>();
+        ArrayList<Double> latency64kb = new ArrayList<>();
+        ArrayList<Double> latency256kb = new ArrayList<>();
+        ArrayList<Double> latency1mb = new ArrayList<>();
+        ArrayList<Double> tpTimes = new ArrayList<>();
+
+        try {
+            BufferedReader in = new BufferedReader(new FileReader(file));
+
+            in.readLine(); //host name
+
+            int trials = Integer.parseInt(in.readLine()); //trials
+
+            latency1b.add(Double.parseDouble(in.readLine()));
+            latency64b.add(Double.parseDouble(in.readLine()));
+            latency1kb.add(Double.parseDouble(in.readLine()));
+            latency16kb.add(Double.parseDouble(in.readLine()));
+            latency64kb.add(Double.parseDouble(in.readLine()));
+            latency256kb.add(Double.parseDouble(in.readLine()));
+            latency1mb.add(Double.parseDouble(in.readLine()));
+
+            tpTimes.add(Double.parseDouble(in.readLine()));
+            tpTimes.add(Double.parseDouble(in.readLine()));
+            tpTimes.add(Double.parseDouble(in.readLine()));
+
+            times.add(latency1b);
+            times.add(latency64b);
+            times.add(latency1kb);
+            times.add(tpTimes);
+
+
+
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+
+        return times;
+    }
+
+    public static String makeTpChartHtml(String host, ArrayList<Double> tbResults){
+        String tbResultsStr = tbResults.toString();
+        String html = "<div class=\"container\">\n" + "\n" +
+                "  <canvas id=\"tpChart" + host + "\" width=\"800\" height=\"450\"></canvas>\n" +
+                "               </div>\n" +
+                "<script>\n" +
+                "    new Chart(document.getElementById(\"tpChart" + host + "\"), {\n" +
+                "        type: 'line',\n" +
+                "        data: {\n" +
+                "            labels: [\"1K\", \"16K\",\"64K\",\"256K\",\"1M\"], \n" +
+                "            datasets: [{\n" +
+                "                data:" + tbResultsStr + ",\n" +
+                "                label: \"Throughput\",\n" +
+                "                borderColor: \"#FF0000\",\n" +
+                "                fill: false\n" +
+                "               }]\n" +
+                "        }," +
+                "        options: {\n" +
+                "\t\t\t\tresponsive: true,\n" +
+                "\t\t\t\ttitle: {\n" +
+                "\t\t\t\t\tdisplay: true,\n" +
+                "\t\t\t\t\ttext: 'TCP vs. UDP Throughput " + host + "'\n" +
+                "\t\t\t\t},\n" +
+                "\t\t\t\ttooltips: {\n" +
+                "\t\t\t\t\tmode: 'index',\n" +
+                "\t\t\t\t\tintersect: false,\n" +
+                "\t\t\t\t},\n" +
+                "\t\t\t\thover: {\n" +
+                "\t\t\t\t\tmode: 'nearest',\n" +
+                "\t\t\t\t\tintersect: true\n" +
+                "\t\t\t\t},\n" +
+                "\t\t\t\tscales: {\n" +
+                "\t\t\t\t\txAxes: [{\n" +
+                "\t\t\t\t\t\tdisplay: true,\n" +
+                "\t\t\t\t\t\tscaleLabel: {\n" +
+                "\t\t\t\t\t\t\tdisplay: true,\n" +
+                "\t\t\t\t\t\t\tlabelString: 'Bytes'\n" +
+                "\t\t\t\t\t\t}\n" +
+                "\t\t\t\t\t}],\n" +
+                "\t\t\t\t\tyAxes: [{\n" +
+                "\t\t\t\t\t\tdisplay: true,\n" +
+                "\t\t\t\t\t\tscaleLabel: {\n" +
+                "\t\t\t\t\t\t\tdisplay: true,\n" +
+                "\t\t\t\t\t\t\tlabelString: 'Mbps'\n" +
+                "\t\t\t\t\t\t}\n" +
+                "\t\t\t\t\t}]\n" +
+                "\t\t\t\t}\n" +
+                "\t\t\t}\n" +
+                "\t});\n" +
+                "</script>\n";
+
+        return html;
+    }
+
     public static String makeLatencyChartHtml(String host, ArrayList<ArrayList<Double>> udpResults, ArrayList<ArrayList<Double>> tcpResults){
 
         String udpLatencyResults = latencyResultsString(udpResults);
         String tcpLatencyResults = latencyResultsString(tcpResults);
 
-        String html = "\"<div class=\"container\">\n" + "\n" +
+        String html = "<div class=\"container\">\n" + "\n" +
                 "  <canvas id=\"latencyChart" + host + "\" width=\"800\" height=\"450\"></canvas>\n" +
                 "               </div>\n" +
                 "<script>\n" +
@@ -171,12 +271,17 @@ public class Webpage {
 
     public static String makeHtml(ArrayList<File> tcpResultsFiles, ArrayList<File> udpResultsFiles) {
 
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sbLatency = new StringBuilder();
+        StringBuilder sbTp = new StringBuilder();
 
         for(int i = 0; i < tcpResultsFiles.size(); i++){
-            sb.append(makeLatencyChartHtml(getHost(tcpResultsFiles.get(i)),
-                    getResults(udpResultsFiles.get(i)), getResults(tcpResultsFiles.get(i))));
 
+            String curHost = getHost(tcpResultsFiles.get(i));
+            ArrayList<ArrayList<Double>> curTcpResults = getTcpResults(tcpResultsFiles.get(i));
+            ArrayList<ArrayList<Double>> curUdpResults = getUdpResults(udpResultsFiles.get(i));
+
+            sbLatency.append(makeLatencyChartHtml(curHost, curUdpResults, curTcpResults));
+            sbTp.append(makeTpChartHtml(curHost, tpTimes(curTcpResults)));
         }
 
 
@@ -191,7 +296,8 @@ public class Webpage {
                 "    <title>TCP & UDP Measurements</title>\n" +
                 "</head>\n" +
                 "<body>\n" +
-                sb.toString() +
+                sbLatency.toString() +
+                sbTp.toString() +
                 "</body>";
 
         return html;
@@ -209,5 +315,9 @@ public class Webpage {
         sb.append("]");
 
         return sb.toString();
+    }
+
+    public static ArrayList<Double> tpTimes(ArrayList<ArrayList<Double>> results){
+        return results.get(3);
     }
 }
