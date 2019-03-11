@@ -113,6 +113,7 @@ public class Webpage {
         ArrayList<Double> latency64b = new ArrayList<>();
         ArrayList<Double> latency1kb = new ArrayList<>();
         ArrayList<Double> tpTimes = new ArrayList<>();
+        ArrayList<Double> mb1Times = new ArrayList<>();
 
         try {
             BufferedReader in = new BufferedReader(new FileReader(file));
@@ -125,6 +126,8 @@ public class Webpage {
             latency64b.add(Double.parseDouble(in.readLine()));
             latency1kb.add(Double.parseDouble(in.readLine()));
 
+            tpTimes.add(Double.parseDouble(in.readLine()));
+            tpTimes.add(Double.parseDouble(in.readLine()));
             tpTimes.add(Double.parseDouble(in.readLine()));
             tpTimes.add(Double.parseDouble(in.readLine()));
             tpTimes.add(Double.parseDouble(in.readLine()));
@@ -315,13 +318,13 @@ public class Webpage {
         sb.append("[");
         sb.append(results.get(3).get(0));
         sb.append(", ");
-        sb.append(results.get(4).get(0));
+        sb.append(results.get(3).get(1));
         sb.append(", ");
-        sb.append(results.get(5).get(0));
+        sb.append(results.get(3).get(2));
         sb.append(", ");
-        sb.append(results.get(6).get(0));
+        sb.append(results.get(3).get(3));
         sb.append(", ");
-        sb.append(results.get(7).get(0));
+        sb.append(results.get(3).get(4));
         sb.append("]");
 
         return sb.toString();

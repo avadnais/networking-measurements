@@ -270,11 +270,11 @@ public class TCPClient {
 
         fout.write(throughputMbps(1 << 10, average(times.get(2))).toString());
         fout.newLine();
-        fout.write(throughputMbps(1 << 14 * 16, average(times.get(3))).toString());
+        fout.write(throughputMbps(1 << 14, average(times.get(3))).toString());
         fout.newLine();
-        fout.write(throughputMbps(1 << 16 * 64, average(times.get(4))).toString());
+        fout.write(throughputMbps(1 << 16, average(times.get(4))).toString());
         fout.newLine();
-        fout.write(throughputMbps(1 << 18 * 256, average(times.get(5))).toString());
+        fout.write(throughputMbps(1 << 18, average(times.get(5))).toString());
         fout.newLine();
         fout.write(throughputMbps(1 << 20, average(times.get(6))).toString());
         fout.newLine();
