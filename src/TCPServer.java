@@ -85,10 +85,6 @@ public class TCPServer {
     static void receiveAndSend(ServerSocket serverSocket, Socket clientSocket, int size, int port) throws IOException {
 
         try {
-            //ServerSocket serverSocket = new ServerSocket(port);
-            System.out.println("Socket created");
-            //serverSocket.setSoTimeout(0);
-
             DataInputStream din = new DataInputStream(clientSocket.getInputStream());
 
             byte[] msg = new byte[size];
