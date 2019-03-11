@@ -176,7 +176,7 @@ public class Webpage {
                 "\t\t\t\tresponsive: true,\n" +
                 "\t\t\t\ttitle: {\n" +
                 "\t\t\t\t\tdisplay: true,\n" +
-                "\t\t\t\t\ttext: 'TCP vs. UDP Times to Send 1MB in Varying Message Sizes" + host + "'\n" +
+                "\t\t\t\t\ttext: 'TCP vs. UDP Times to Send 1MB in Varying Message Sizes " + host + "'\n" +
                 "\t\t\t\t},\n" +
                 "\t\t\t\ttooltips: {\n" +
                 "\t\t\t\t\tmode: 'index',\n" +
@@ -198,7 +198,7 @@ public class Webpage {
                 "\t\t\t\t\t\tdisplay: true,\n" +
                 "\t\t\t\t\t\tscaleLabel: {\n" +
                 "\t\t\t\t\t\t\tdisplay: true,\n" +
-                "\t\t\t\t\t\t\tlabelString: 'Time in Nanoseconds'\n" +
+                "\t\t\t\t\t\t\tlabelString: 'Time in Seconds'\n" +
                 "\t\t\t\t\t\t}\n" +
                 "\t\t\t\t\t}]\n" +
                 "\t\t\t\t}\n" +
@@ -315,7 +315,7 @@ public class Webpage {
                 "\t\t\t\t\t\tdisplay: true,\n" +
                 "\t\t\t\t\t\tscaleLabel: {\n" +
                 "\t\t\t\t\t\t\tdisplay: true,\n" +
-                "\t\t\t\t\t\t\tlabelString: 'Milliseconds'\n" +
+                "\t\t\t\t\t\t\tlabelString: 'Time in Milliseconds'\n" +
                 "\t\t\t\t\t\t}\n" +
                 "\t\t\t\t\t}]\n" +
                 "\t\t\t\t}\n" +
@@ -368,11 +368,11 @@ public class Webpage {
 
         StringBuilder sb = new StringBuilder();
         sb.append("[");
-        sb.append(results.get(0).get(0));
+        sb.append(results.get(0).get(0) / 1000);
         sb.append(", ");
-        sb.append(results.get(1).get(0));
+        sb.append(results.get(1).get(0) / 1000);
         sb.append(", ");
-        sb.append(results.get(2).get(0));
+        sb.append(results.get(2).get(0) / 1000);
         sb.append("]");
 
         return sb.toString();
@@ -403,11 +403,11 @@ public class Webpage {
         int i = results.size() - 1;
 
         sb.append("[");
-        sb.append(results.get(i).get(0));
+        sb.append(results.get(i).get(0) / 1000000);
         sb.append(", ");
-        sb.append(results.get(i).get(1));
+        sb.append(results.get(i).get(1) / 1000000);
         sb.append(", ");
-        sb.append(results.get(i).get(2));
+        sb.append(results.get(i).get(2) / 1000000);
         sb.append("]");
 
         return sb.toString();

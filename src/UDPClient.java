@@ -83,9 +83,9 @@ public class UDPClient {
 
         ArrayList<Double> times1MB = new ArrayList<>(3);
 
-        times1MB.add(total_1024_1024);
-        times1MB.add(total_2048_512);
         times1MB.add(total_4096_256);
+        times1MB.add(total_2048_512);
+        times1MB.add(total_1024_1024);
 
         times.add(times1MB);
 
