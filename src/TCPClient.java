@@ -210,9 +210,9 @@ public class TCPClient {
         System.out.println("4096 256B messages: " + total_4096_256 / 1000000000 + " seconds");
 
         ArrayList<Double> times1MB = new ArrayList<>(3);
-        times1MB.add(total_1024_1024);
-        times1MB.add(total_2048_512);
         times1MB.add(total_4096_256);
+        times1MB.add(total_2048_512);
+        times1MB.add(total_1024_1024);
 
         times.add(times1MB);
 

@@ -11,6 +11,59 @@
 <body>
 <div class="container">
 
+  <canvas id="latencyChart129.3.20.2" width="800" height="450"></canvas>
+               </div>
+<script>
+    new Chart(document.getElementById("latencyChart129.3.20.2"), {
+        type: 'line',
+        data: {
+            labels: ["1 byte", "64 byte","1 kilobyte"], 
+            datasets: [{
+                data:[1717212.0, 1689959.6, 1929216.0],
+                label: "UDP",
+                borderColor: "#FF0000",
+                fill: false
+               },{
+                data:[1505965.8, 1534923.6, 1976083.0],
+                label: "TCP",
+                borderColor: "#0078ff",
+                fill: false
+               }           ]
+        },        options: {
+				responsive: true,
+				title: {
+					display: true,
+					text: 'TCP vs. UDP Latency 129.3.20.2'
+				},
+				tooltips: {
+					mode: 'index',
+					intersect: false,
+				},
+				hover: {
+					mode: 'nearest',
+					intersect: true
+				},
+				scales: {
+					xAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Bytes'
+						}
+					}],
+					yAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Milliseconds'
+						}
+					}]
+				}
+			}
+	});
+</script>
+<div class="container">
+
   <canvas id="latencyChart129.3.20.26" width="800" height="450"></canvas>
                </div>
 <script>
@@ -24,7 +77,7 @@
                 borderColor: "#FF0000",
                 fill: false
                },{
-                data:[1578416.8, 1609872.6, 1863727.4],
+                data:[1490570.2, 1593643.8, 1844597.2],
                 label: "TCP",
                 borderColor: "#0078ff",
                 fill: false
@@ -72,12 +125,12 @@
         data: {
             labels: ["1 byte", "64 byte","1 kilobyte"], 
             datasets: [{
-                data:[59800.0, 69218.6, 83598.4],
+                data:[53533.0, 59594.8, 108825.4],
                 label: "UDP",
                 borderColor: "#FF0000",
                 fill: false
                },{
-                data:[86209.2, 74165.6, 87381.6],
+                data:[78862.2, 84551.8, 83699.2],
                 label: "TCP",
                 borderColor: "#0078ff",
                 fill: false
@@ -117,6 +170,54 @@
 </script>
 <div class="container">
 
+  <canvas id="tpChart129.3.20.2" width="800" height="450"></canvas>
+               </div>
+<script>
+    new Chart(document.getElementById("tpChart129.3.20.2"), {
+        type: 'line',
+        data: {
+            labels: ["1K", "16K","64K","256K","1M"], 
+            datasets: [{
+                data:[4.145574856926556, 24.846344376945005, 45.51747407467447, 54.35073577191409, 66.30358290416757],
+                label: "Throughput",
+                borderColor: "#FF0000",
+                fill: false
+               }]
+        },        options: {
+				responsive: true,
+				title: {
+					display: true,
+					text: 'TCP vs. UDP Throughput 129.3.20.2'
+				},
+				tooltips: {
+					mode: 'index',
+					intersect: false,
+				},
+				hover: {
+					mode: 'nearest',
+					intersect: true
+				},
+				scales: {
+					xAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Bytes'
+						}
+					}],
+					yAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Mbps'
+						}
+					}]
+				}
+			}
+	});
+</script>
+<div class="container">
+
   <canvas id="tpChart129.3.20.26" width="800" height="450"></canvas>
                </div>
 <script>
@@ -125,7 +226,7 @@
         data: {
             labels: ["1K", "16K","64K","256K","1M"], 
             datasets: [{
-                data:[4.39549260261989, 0.0014667616052561694, 6.532626853692072E-4, 2.1065785387961277E-4, 63.612908521165195],
+                data:[4.441077976264954, 27.175711442510448, 43.92198619918328, 53.89327233896559, 61.467906429519005],
                 label: "Throughput",
                 borderColor: "#FF0000",
                 fill: false
@@ -173,7 +274,7 @@
         data: {
             labels: ["1K", "16K","64K","256K","1M"], 
             datasets: [{
-                data:[93.74971389857818, 0.0824563754238773, 0.03913633926509782, 0.01306342127737399, 3567.5888734338596],
+                data:[97.87429270530663, 1237.7847702006943, 2653.513011773304, 4046.490555785811, 5202.541444591678],
                 label: "Throughput",
                 borderColor: "#FF0000",
                 fill: false
@@ -205,6 +306,165 @@
 						scaleLabel: {
 							display: true,
 							labelString: 'Mbps'
+						}
+					}]
+				}
+			}
+	});
+</script>
+<div class="container">
+
+  <canvas id="mb1Chart129.3.20.2" width="800" height="450"></canvas>
+               </div>
+<script>
+    new Chart(document.getElementById("mb1Chart129.3.20.2"), {
+        type: 'line',
+        data: {
+            labels: ["256", "512","1024"], 
+            datasets: [{
+                data:[1.868239203E9, 3.469304139E9, 6.628456970039216E9],
+                label: "UDP",
+                borderColor: "#FF0000",
+                fill: false
+               },{
+                data:[1.842051584E9, 3.466382513E9, 6.618281164E9],
+                label: "TCP",
+                borderColor: "#0078ff",
+                fill: false
+               }           ]
+        },        options: {
+				responsive: true,
+				title: {
+					display: true,
+					text: 'TCP vs. UDP Times to Send 1MB in Varying Message Sizes129.3.20.2'
+				},
+				tooltips: {
+					mode: 'index',
+					intersect: false,
+				},
+				hover: {
+					mode: 'nearest',
+					intersect: true
+				},
+				scales: {
+					xAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Message Size in Bytes'
+						}
+					}],
+					yAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Time in Nanoseconds'
+						}
+					}]
+				}
+			}
+	});
+</script>
+<div class="container">
+
+  <canvas id="mb1Chart129.3.20.26" width="800" height="450"></canvas>
+               </div>
+<script>
+    new Chart(document.getElementById("mb1Chart129.3.20.26"), {
+        type: 'line',
+        data: {
+            labels: ["256", "512","1024"], 
+            datasets: [{
+                data:[2.087852454E9, 3.93063062E9, 7.223189891513725E9],
+                label: "UDP",
+                borderColor: "#FF0000",
+                fill: false
+               },{
+                data:[1.815126743E9, 3.547241313E9, 6.669488353E9],
+                label: "TCP",
+                borderColor: "#0078ff",
+                fill: false
+               }           ]
+        },        options: {
+				responsive: true,
+				title: {
+					display: true,
+					text: 'TCP vs. UDP Times to Send 1MB in Varying Message Sizes129.3.20.26'
+				},
+				tooltips: {
+					mode: 'index',
+					intersect: false,
+				},
+				hover: {
+					mode: 'nearest',
+					intersect: true
+				},
+				scales: {
+					xAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Message Size in Bytes'
+						}
+					}],
+					yAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Time in Nanoseconds'
+						}
+					}]
+				}
+			}
+	});
+</script>
+<div class="container">
+
+  <canvas id="mb1Chartlocalhost" width="800" height="450"></canvas>
+               </div>
+<script>
+    new Chart(document.getElementById("mb1Chartlocalhost"), {
+        type: 'line',
+        data: {
+            labels: ["256", "512","1024"], 
+            datasets: [{
+                data:[5.2217028E7, 8.1853655E7, 1.7590949345882353E8],
+                label: "UDP",
+                borderColor: "#FF0000",
+                fill: false
+               },{
+                data:[1.536417E8, 1.20289463E8, 4.5942242E7],
+                label: "TCP",
+                borderColor: "#0078ff",
+                fill: false
+               }           ]
+        },        options: {
+				responsive: true,
+				title: {
+					display: true,
+					text: 'TCP vs. UDP Times to Send 1MB in Varying Message Sizeslocalhost'
+				},
+				tooltips: {
+					mode: 'index',
+					intersect: false,
+				},
+				hover: {
+					mode: 'nearest',
+					intersect: true
+				},
+				scales: {
+					xAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Message Size in Bytes'
+						}
+					}],
+					yAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Time in Nanoseconds'
 						}
 					}]
 				}

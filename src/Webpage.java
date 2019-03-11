@@ -27,12 +27,6 @@ public class Webpage {
             }
         }
 
-        File udpFile = new File("UDPResults.txt");
-
-        File tcpFile = new File("TCPResults.txt");
-
-
-
         BufferedWriter fout = new BufferedWriter(new FileWriter("results/results.html"));
 
         fout.write(makeHtml(tcpResultsFiles, udpResultsFiles));
@@ -132,10 +126,15 @@ public class Webpage {
             tpTimes.add(Double.parseDouble(in.readLine()));
             tpTimes.add(Double.parseDouble(in.readLine()));
 
+            mb1Times.add(Double.parseDouble(in.readLine()));
+            mb1Times.add(Double.parseDouble(in.readLine()));
+            mb1Times.add(Double.parseDouble(in.readLine()));
+
             times.add(latency1b);
             times.add(latency64b);
             times.add(latency1kb);
             times.add(tpTimes);
+            times.add(mb1Times);
 
 
 
@@ -145,6 +144,69 @@ public class Webpage {
         }
 
         return times;
+    }
+
+    public static String makeMb1ChartHtml(String host, ArrayList<ArrayList<Double>> udpResults, ArrayList<ArrayList<Double>> tcpResults){
+
+        String udpMb1Results = mb1Times(udpResults);
+        String tcpMb1Results = mb1Times(tcpResults);
+
+        String html = "<div class=\"container\">\n" + "\n" +
+                "  <canvas id=\"mb1Chart" + host + "\" width=\"800\" height=\"450\"></canvas>\n" +
+                "               </div>\n" +
+                "<script>\n" +
+                "    new Chart(document.getElementById(\"mb1Chart" + host + "\"), {\n" +
+                "        type: 'line',\n" +
+                "        data: {\n" +
+                "            labels: [\"256\", \"512\",\"1024\"], \n" +
+                "            datasets: [{\n" +
+                "                data:" + udpMb1Results + ",\n" +
+                "                label: \"UDP\",\n" +
+                "                borderColor: \"#FF0000\",\n" +
+                "                fill: false\n" +
+                "               },{\n" +
+                "                data:" + tcpMb1Results + ",\n" +
+                "                label: \"TCP\",\n" +
+                "                borderColor: \"#0078ff\",\n" +
+                "                fill: false\n" +
+                "               }" +
+                "           ]\n" +
+                "        }," +
+                "        options: {\n" +
+                "\t\t\t\tresponsive: true,\n" +
+                "\t\t\t\ttitle: {\n" +
+                "\t\t\t\t\tdisplay: true,\n" +
+                "\t\t\t\t\ttext: 'TCP vs. UDP Times to Send 1MB in Varying Message Sizes" + host + "'\n" +
+                "\t\t\t\t},\n" +
+                "\t\t\t\ttooltips: {\n" +
+                "\t\t\t\t\tmode: 'index',\n" +
+                "\t\t\t\t\tintersect: false,\n" +
+                "\t\t\t\t},\n" +
+                "\t\t\t\thover: {\n" +
+                "\t\t\t\t\tmode: 'nearest',\n" +
+                "\t\t\t\t\tintersect: true\n" +
+                "\t\t\t\t},\n" +
+                "\t\t\t\tscales: {\n" +
+                "\t\t\t\t\txAxes: [{\n" +
+                "\t\t\t\t\t\tdisplay: true,\n" +
+                "\t\t\t\t\t\tscaleLabel: {\n" +
+                "\t\t\t\t\t\t\tdisplay: true,\n" +
+                "\t\t\t\t\t\t\tlabelString: 'Message Size in Bytes'\n" +
+                "\t\t\t\t\t\t}\n" +
+                "\t\t\t\t\t}],\n" +
+                "\t\t\t\t\tyAxes: [{\n" +
+                "\t\t\t\t\t\tdisplay: true,\n" +
+                "\t\t\t\t\t\tscaleLabel: {\n" +
+                "\t\t\t\t\t\t\tdisplay: true,\n" +
+                "\t\t\t\t\t\t\tlabelString: 'Time in Nanoseconds'\n" +
+                "\t\t\t\t\t\t}\n" +
+                "\t\t\t\t\t}]\n" +
+                "\t\t\t\t}\n" +
+                "\t\t\t}\n" +
+                "\t});\n" +
+                "</script>\n";
+
+        return html;
     }
 
     public static String makeTpChartHtml(String host, String tbResultsStr){
@@ -268,6 +330,7 @@ public class Webpage {
 
         StringBuilder sbLatency = new StringBuilder();
         StringBuilder sbTp = new StringBuilder();
+        StringBuilder sb1mb = new StringBuilder();
 
         for(int i = 0; i < tcpResultsFiles.size(); i++){
 
@@ -277,6 +340,8 @@ public class Webpage {
 
             sbLatency.append(makeLatencyChartHtml(curHost, curUdpResults, curTcpResults));
             sbTp.append(makeTpChartHtml(curHost, tpTimes(curTcpResults)));
+            sb1mb.append(makeMb1ChartHtml(curHost, curUdpResults, curTcpResults));
+
         }
 
 
@@ -293,6 +358,7 @@ public class Webpage {
                 "<body>\n" +
                 sbLatency.toString() +
                 sbTp.toString() +
+                sb1mb.toString() +
                 "</body>";
 
         return html;
@@ -328,5 +394,23 @@ public class Webpage {
         sb.append("]");
 
         return sb.toString();
+    }
+
+    public static String mb1Times(ArrayList<ArrayList<Double>> results){
+
+        StringBuilder sb = new StringBuilder();
+
+        int i = results.size() - 1;
+
+        sb.append("[");
+        sb.append(results.get(i).get(0));
+        sb.append(", ");
+        sb.append(results.get(i).get(1));
+        sb.append(", ");
+        sb.append(results.get(i).get(2));
+        sb.append("]");
+
+        return sb.toString();
+
     }
 }
