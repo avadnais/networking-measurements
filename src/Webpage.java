@@ -152,8 +152,8 @@ public class Webpage {
         return times;
     }
 
-    public static String makeTpChartHtml(String host, ArrayList<Double> tbResults){
-        String tbResultsStr = tbResults.toString();
+    public static String makeTpChartHtml(String host, String tbResultsStr){
+        //String tbResultsStr = tbResults.toString();
         String html = "<div class=\"container\">\n" + "\n" +
                 "  <canvas id=\"tpChart" + host + "\" width=\"800\" height=\"450\"></canvas>\n" +
                 "               </div>\n" +
@@ -317,7 +317,21 @@ public class Webpage {
         return sb.toString();
     }
 
-    public static ArrayList<Double> tpTimes(ArrayList<ArrayList<Double>> results){
-        return results.get(3);
+    public static String tpTimes(ArrayList<ArrayList<Double>> results){
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        sb.append(results.get(3).get(0));
+        sb.append(", ");
+        sb.append(results.get(4).get(0));
+        sb.append(", ");
+        sb.append(results.get(5).get(0));
+        sb.append(", ");
+        sb.append(results.get(6).get(0));
+        sb.append(", ");
+        sb.append(results.get(7).get(0));
+        sb.append("]");
+
+        return sb.toString();
     }
 }

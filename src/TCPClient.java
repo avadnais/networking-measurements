@@ -263,16 +263,21 @@ public class TCPClient {
         fout.write(String.valueOf(trials));
         fout.newLine();
 
-        for(int i = 0; i < 7; i++){
+        for(int i = 0; i < 3; i++){
             fout.write(average(times.get(i)).toString());
             fout.newLine();
         }
 
-        fout.write(times.get(7).get(0).toString());
-        fout.newLine();
-        fout.write(times.get(7).get(1).toString());
-        fout.newLine();
-        fout.write(times.get(7).get(2).toString());
+        for(int i = 2; i < 7; i ++) {
+            fout.write(average(times.get(i)).toString());
+            fout.newLine();
+        }
+
+        for(int i = 0; i < times.get(7).size(); i++) {
+            fout.write(times.get(7).get(i).toString());
+            fout.newLine();
+        }
+
 
         fout.close();
 
