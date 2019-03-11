@@ -112,10 +112,6 @@ public class Webpage {
         ArrayList<Double> latency1b = new ArrayList<>();
         ArrayList<Double> latency64b = new ArrayList<>();
         ArrayList<Double> latency1kb = new ArrayList<>();
-        ArrayList<Double> latency16kb = new ArrayList<>();
-        ArrayList<Double> latency64kb = new ArrayList<>();
-        ArrayList<Double> latency256kb = new ArrayList<>();
-        ArrayList<Double> latency1mb = new ArrayList<>();
         ArrayList<Double> tpTimes = new ArrayList<>();
 
         try {
@@ -128,10 +124,6 @@ public class Webpage {
             latency1b.add(Double.parseDouble(in.readLine()));
             latency64b.add(Double.parseDouble(in.readLine()));
             latency1kb.add(Double.parseDouble(in.readLine()));
-            latency16kb.add(Double.parseDouble(in.readLine()));
-            latency64kb.add(Double.parseDouble(in.readLine()));
-            latency256kb.add(Double.parseDouble(in.readLine()));
-            latency1mb.add(Double.parseDouble(in.readLine()));
 
             tpTimes.add(Double.parseDouble(in.readLine()));
             tpTimes.add(Double.parseDouble(in.readLine()));

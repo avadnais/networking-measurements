@@ -249,7 +249,7 @@ public class TCPClient {
     }
 
 
-    static double throughputMbps(int size, double time) {
+    static Double throughputMbps(int size, double time) {
         return size * 8 / (time / 1000);
     }
 
@@ -268,10 +268,16 @@ public class TCPClient {
             fout.newLine();
         }
 
-        for(int i = 2; i < 7; i ++) {
-            fout.write(average(times.get(i)).toString());
-            fout.newLine();
-        }
+        fout.write(throughputMbps(1 << 10, average(times.get(2))).toString());
+        fout.newLine();
+        fout.write(throughputMbps(1 << 14 * 16, average(times.get(3))).toString());
+        fout.newLine();
+        fout.write(throughputMbps(1 << 16 * 64, average(times.get(4))).toString());
+        fout.newLine();
+        fout.write(throughputMbps(1 << 18 * 256, average(times.get(5))).toString());
+        fout.newLine();
+        fout.write(throughputMbps(1 << 20, average(times.get(6))).toString());
+        fout.newLine();
 
         for(int i = 0; i < times.get(7).size(); i++) {
             fout.write(times.get(7).get(i).toString());
