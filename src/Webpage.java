@@ -111,8 +111,11 @@ public class Webpage {
         String udpLatencyResults = latencyResultsString(udpResults);
         String tcpLatencyResults = latencyResultsString(tcpResults);
 
-        String html = "<script>\n" +
-                "    new Chart(document.getElementById(\"latencyChart\"), {\n" +
+        String html = "\"<div class=\"container\">\n" + "\n" +
+                "  <canvas id=\"latencyChart" + host + "\" width=\"800\" height=\"450\"></canvas>\n" +
+                "               </div>\n" +
+                "<script>\n" +
+                "    new Chart(document.getElementById(\"latencyChart" + host + "\"), {\n" +
                 "        type: 'line',\n" +
                 "        data: {\n" +
                 "            labels: [\"1 byte\", \"64 byte\",\"1 kilobyte\"], \n" +
@@ -133,7 +136,7 @@ public class Webpage {
                 "\t\t\t\tresponsive: true,\n" +
                 "\t\t\t\ttitle: {\n" +
                 "\t\t\t\t\tdisplay: true,\n" +
-                "\t\t\t\t\ttext: 'TCP vs. UDP Latency'\n" +
+                "\t\t\t\t\ttext: 'TCP vs. UDP Latency " + host + "'\n" +
                 "\t\t\t\t},\n" +
                 "\t\t\t\ttooltips: {\n" +
                 "\t\t\t\t\tmode: 'index',\n" +
@@ -188,9 +191,6 @@ public class Webpage {
                 "    <title>TCP & UDP Measurements</title>\n" +
                 "</head>\n" +
                 "<body>\n" +
-                "<div class=\"container\">\n" +
-                "    <canvas id=\"latencyChart\" width=\"800\" height=\"450\"></canvas>\n" +
-                "</div>\n" +
                 sb.toString() +
                 "</body>";
 

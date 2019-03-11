@@ -97,7 +97,7 @@ public class TCPServer {
             din.readFully(msg);
             dout.write(msg);
 
-            System.out.println("Echoed " + msg.length + " bytes");
+            //System.out.println("Echoed " + msg.length + " bytes");
 
             //serverSocket.close();
             //clientSocket.close();

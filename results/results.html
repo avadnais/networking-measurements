@@ -9,11 +9,65 @@
     <title>TCP & UDP Measurements</title>
 </head>
 <body>
-<div class="container">
-    <canvas id="latencyChart" width="800" height="450"></canvas>
-</div>
+"<div class="container">
+
+  <canvas id="latencyChart129.3.20.26" width="800" height="450"></canvas>
+               </div>
 <script>
-    new Chart(document.getElementById("latencyChart"), {
+    new Chart(document.getElementById("latencyChart129.3.20.26"), {
+        type: 'line',
+        data: {
+            labels: ["1 byte", "64 byte","1 kilobyte"], 
+            datasets: [{
+                data:[2422811.2, 2589080.0, 2762743.4],
+                label: "UDP",
+                borderColor: "#FF0000",
+                fill: false
+               },{
+                data:[1984170.8, 2064779.6, 2074100.6],
+                label: "TCP",
+                borderColor: "#0078ff",
+                fill: false
+               }           ]
+        },        options: {
+				responsive: true,
+				title: {
+					display: true,
+					text: 'TCP vs. UDP Latency 129.3.20.26'
+				},
+				tooltips: {
+					mode: 'index',
+					intersect: false,
+				},
+				hover: {
+					mode: 'nearest',
+					intersect: true
+				},
+				scales: {
+					xAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Bytes'
+						}
+					}],
+					yAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Milliseconds'
+						}
+					}]
+				}
+			}
+	});
+</script>
+"<div class="container">
+
+  <canvas id="latencyChartlocalhost" width="800" height="450"></canvas>
+               </div>
+<script>
+    new Chart(document.getElementById("latencyChartlocalhost"), {
         type: 'line',
         data: {
             labels: ["1 byte", "64 byte","1 kilobyte"], 
@@ -32,7 +86,7 @@
 				responsive: true,
 				title: {
 					display: true,
-					text: 'TCP vs. UDP Latency'
+					text: 'TCP vs. UDP Latency localhost'
 				},
 				tooltips: {
 					mode: 'index',
