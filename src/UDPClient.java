@@ -3,6 +3,7 @@ import java.net.*;
 import java.util.*;
 
 public class UDPClient {
+
     public static void main(String[] args) throws IOException {
 
         Scanner sc = new Scanner(System.in);
@@ -90,7 +91,7 @@ public class UDPClient {
 
         socket.close();
 
-        writeResults(TRIALS, times);
+        writeResults(host, TRIALS, times);
 
     }
 
@@ -118,9 +119,12 @@ public class UDPClient {
         return duration;
     }
 
-    static void writeResults(int trials, ArrayList<ArrayList<Double>> times) throws IOException {
+    static void writeResults(String host, int trials, ArrayList<ArrayList<Double>> times) throws IOException {
 
-        BufferedWriter fout = new BufferedWriter(new FileWriter("UDPResults.txt"));
+        BufferedWriter fout = new BufferedWriter(new FileWriter("results/UDP-" + host));
+
+        fout.write(host);
+        fout.newLine();
 
         fout.write(String.valueOf(trials));
         fout.newLine();

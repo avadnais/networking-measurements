@@ -12,29 +12,53 @@
 <div class="container">
     <canvas id="latencyChart" width="800" height="450"></canvas>
 </div>
-
 <script>
     new Chart(document.getElementById("latencyChart"), {
         type: 'line',
         data: {
             labels: ["1 byte", "64 byte","1 kilobyte"], 
             datasets: [{
-                data:[26475.6, 27409.6, 39780.6],
+                data:[125779.2, 98145.6, 122717.8],
                 label: "UDP",
                 borderColor: "#FF0000",
                 fill: false
                },{
-                data:[90753.6, 95466.0, 107719.0],
+                data:[130980.4, 90703.2, 70915.2],
                 label: "TCP",
                 borderColor: "#0078ff",
                 fill: false
                }           ]
         },        options: {
-            title: {
-                display: true,
-                text: 'Latency of TCP vs UDP'
-            }
-        }
-    });
+				responsive: true,
+				title: {
+					display: true,
+					text: 'TCP vs. UDP Latency'
+				},
+				tooltips: {
+					mode: 'index',
+					intersect: false,
+				},
+				hover: {
+					mode: 'nearest',
+					intersect: true
+				},
+				scales: {
+					xAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Bytes'
+						}
+					}],
+					yAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Milliseconds'
+						}
+					}]
+				}
+			}
+	});
 </script>
 </body>

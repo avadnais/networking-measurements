@@ -217,7 +217,7 @@ public class TCPClient {
         times.add(times1MB);
 
 
-        writeResults(TRIALS, times);
+        writeResults(host, TRIALS, times);
 
 
 
@@ -253,9 +253,12 @@ public class TCPClient {
         return size * 8 / (time / 1000);
     }
 
-    static void writeResults(int trials, ArrayList<ArrayList<Double>> times) throws IOException {
+    static void writeResults(String host, int trials, ArrayList<ArrayList<Double>> times) throws IOException {
 
-        BufferedWriter fout = new BufferedWriter(new FileWriter("TCPResults.txt"));
+        BufferedWriter fout = new BufferedWriter(new FileWriter("results/TCP-" + host));
+
+        fout.write(host);
+        fout.newLine();
 
         fout.write(String.valueOf(trials));
         fout.newLine();
