@@ -5,4 +5,4 @@ The results of the tests get stored in the results directory. After running the 
 
 Assignment description: http://gee.cs.oswego.edu/dl/csc445/a1.html
 
-My results: http://cs.oswego.edu/~avadnais
+My results: http://cs.oswego.edu/~avadnais/csc445/networking-measurements/results/
